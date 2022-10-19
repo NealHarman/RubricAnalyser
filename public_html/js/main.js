@@ -3,13 +3,10 @@ $(document).ready(function () {
      * 
      * To Do:
      * 
-     * 1. Tidy up chart and processdata - DONE
-     * 2. Make generatebarchats and getting data OO - DONE
-     * 3. Get access to web space, test multiple browsers
-     * 4. Improve tool tips
-     * 5. Data analysis - comparing 'ideal' distribution and make suggestions to improve rubric - DONE
-     * 6. Authentication
-     * 7. Better interface than hard-coding params - DONE
+     * 1. Address bugs in data representation seen in grades by rubric category and rubric box plot
+     * 2. Address bugs causing D3 exceptions (NaN values)
+     * 3. Refine the up/down category code
+     * 4. Put the comments in the appropriate doc. style
      */
 
     /*
@@ -53,7 +50,7 @@ $(document).ready(function () {
 
     //Inject a standard 'data not ready yet' msg into the tabs before data is loaded/processed
     const notReady = "Content not ready - use the 'Load' tab to get data";
-    $('.notready').val("Content not ready - use the 'Load' tab to get data");
+    $('.instructions').hide();
 
     /*Slightly hacky way to make data available to download in CSV/TSV
      * The link to the processed data (via the processData object) has to be global so it can be
@@ -105,6 +102,8 @@ $(document).ready(function () {
 
         //..which are later delivered on - once the data is back, call the dealWithData function
         Promise.all([assignmentPromise, submissionPromise, userPromise]).then(assessData => dealWithData(assessData));
+        $('.instructions').show();
+        $('.notready').hide();//duplicate?
     });
 
     /*
@@ -226,7 +225,7 @@ $(document).ready(function () {
         const summaryChart = new SummaryDataGraph("Summary Box Plot");
         summaryChart
                 .addData("Actual", processData.getStatsData())
-                .addData("Normal Dist.", processData.getNormalStatsData())
+                .addData("Target Dist.", processData.getNormalStatsData())
                 .genGraph("#summaryContainer", "boxSummary");
 
         //Generate the 'what-if' plot

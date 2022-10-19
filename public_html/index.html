@@ -3,7 +3,7 @@
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
-    
+
     <head>
         <meta charset="utf-8">
         <meta content="IE=edge,chrome=1">
@@ -72,7 +72,7 @@
 
             <!-- The Actual tabs -->
             <div class="tab-content clearfix">
-                
+
                 <!-- 1. Input fields for data - currently pre-populated - as well as buttons to load/process data, and download CSV/TSV files. Also overall summary actual/target data boxplot -->        
                 <div class="tab-pane active" id="load" role="tabpanel">
                     <div class="row">
@@ -80,16 +80,16 @@
                         <div class="col-md-3">
                             <form>
                                 <div class="mb-3">
-                                    <label>Token</label><br/>
-                                    <input id="token" type="password" size="50" maxlength="100">
+                                    <label">Token</label><br/>
+                                    <input id="token" type="password" size="50" maxlength="100" data-placement="bottom" title="Your Canvas API authentication token">
                                 </div>
                                 <div class="mb-3">
                                     <label>Course ID</label><br/>
-                                    <input id="course" type="number">
+                                    <input id="course" type="number" data-placement="bottom" title="The ID of your Canvas course - you can get this from the URI">
                                 </div>
                                 <div class="mb-3">
                                     <label>Assessment ID</label><br/>
-                                    <input id="assessment" type="number">
+                                    <input id="assessment" type="number" data-placement="bottom" title="The ID of your Canvas assessment - you can get this from the URI">
                                 </div>
                                 <button id="go" class="btn btn-primary" type="button">
                                     Go!&raquo;
@@ -102,15 +102,16 @@
                             <form>
                                 <div class="mb-3">
                                     <label>Base URL</label><br/>
-                                    <input id="url" type="url">
+                                    <input id="url" type="url" data-placement="bottom" title="The Canvas base URI for the API - try your Canvas URI followed by '/api/v1/courses/'">
                                 </div>
                                 <div class="mb-3">
                                     <label>Target Average</label><br/>
-                                    <input id="average" type="number">
+                                    <input id="average" type="number" data-placement="bottom"
+                                           title="The target average you want for your assessment - this (along with SD below) controls the shape of the target data curve.">
                                 </div>
                                 <div class="mb-3">
                                     <label>Target SD</label><br/>
-                                    <input id="sd" type="number">
+                                    <input id="sd" type="number" data-placement="bottom" title="The target Standard Deviation you want for your assessment - this (along with average above) controls the shape of the target data curve.">
                                 </div>
                             </form>
                         </div>
@@ -125,59 +126,76 @@
                         <div id="summaryContainer" class="svg-container"></div>
                     </div>
                 </div>
-                
+
                 <!-- 2. Check boxes to turn visibility on/off of actual and target histogram data as well as SVG for data-->
                 <div class="tab-pane" id="histogram" role="tabpanel">
-                    <div class="notready"></div>
+                    <div class='row'>
+                        <div class='col'>
+                            <div class="notready">Content not ready</div>
+                            <div class='instructions'>Basic histogram view with data - both actual and target - in 'bins' of 10.
+                                Use the checkboxes to turn off/on the actual and/or target data.<br/></div>
+                        </div>
+                    </div>
                     <div id="histControls" class='controlContainer'></div>
                     <div id="histContainer" class="svg-container"></div>
                 </div>
-                
+
                 <!-- 3. Check boxes to turn actual and target low-to-high mark data on/off as well as SVG for data --> 
                 <div class="tab-pane" id="grades" role="tabpanel">
-                    <div class="notready"></div>
+                    <div class="notready">Content not ready</div>
+                    <div class='instructions'>Grades - both actual and nominal 'target' - from low to high. Use the checkboxes to turn on/off
+                    the actual and/or target data.</div>
                     <div id="lowHighControls" class='controlContainer'></div>
                     <div id="scoreContainer" class="svg-container"></div>
                 </div>
-                
+
                 <!-- 4. SVG for low-to-high mark data highlighted by rubric category, and line graph of target data -->
                 <div class="tab-pane" id="gradesRubric" role="tabpanel">
-                    <div class="notready"></div>
+                    <div class="notready">Content not ready</div>
+                    <div class='instructions'>Grades with contribution by rubric category colour coded - the line is the target curve.</div>
                     <div id="scoreRubricContainer" class="svg-container"></div>
                 </div>
-                
+
                 <!-- 5. SVG for rubric averages 'raw' and by %, bubble chart of rubric category counts, and controls to turn each one on/off -->
                 <div class="tab-pane" id="rubricSummary" role="tabpanel">
-                    <div class="notready"></div>
+                    <div class="notready">Content not ready</div>
+                    <div class='instructions'>Bubble size represents the number of grades in each rubric category. Bars represent the average category scores, both
+                    unscaled and scaled to %.</div>
                     <div id="rubricControls" class='controlContainer'></div>
                     <div id="rubricSummaryContainer" class="svg-container"></div>
                 </div>
-                
+
                 <!-- 6. SVG for 'raw' rubric mark data - average, quartiles, median, lowest and highest -->
                 <div class="tab-pane" id="rubricBoxplot" role="tabpanel">
-                    <div class="notready"></div>
+                    <div class="notready">Content not ready</div>
+                    <div class='instructions'>Shows min, max, upper, lower quartile; mean (line) and mode (circle) for each rubric category.</div>
                     <div id="rubricBoxplotContainer" class="svg-container"></div>
                 </div>
-                
+
                 <!-- 7. SVG for % rubric mark data - average, quartiles, median, lowest and highest -->
                 <div class="tab-pane" id="rubricBoxplotScaled" role="tabpanel">
-                    <div class="notready"></div>
+                    <div class="notready">Content not ready</div>
+                    <div class='instructions'>As previous tab but scaled to a %.</div>
                     <div id="scaledRubricBoxplotContainer" class="svg-container"></div>
                 </div>
-                
+
                 <!-- 8. What-if controls for top options by number of student marks 'normalised' - dynamimcally generated, as well as on/off control for all options, and SVG for mark data -->
                 <div class="tab-pane" id="filterHistogram" role="tabpanel">
-                    <div class="notready"></div>
+                    <div class="notready">Content not ready</div>
+                    <div class='instructions'>Shows the impact of moving (combinations of) rubric scores up or down a category. Ones affected are colour coded
+                    and keyed to the same colour checkbox, which what changes they represent and how many scores (in brackets) would move closer to the target. The 
+                    threshold for attempting to see if moving helps is currently 10; the target distance from the ideal data is 5 or less.</div>
                     <form>
                         <span><input type ='checkbox' class='masterControl' id='changeall' checked/><span>Change All</span>
                     </form>
                     <div id="whatIfControls" class='controlContainer'></div>
                     <div id="filterHistogramContainer" class="svg-container"></div>
                 </div>
-                
+
                 <!-- 9. Integrated with 8 - the effect of each 'what if' option on all student marks - only really makes sense to look at one at at time -->
                 <div class="tab-pane" id="filterDetail" role="tabpanel">
-                    <div class="notready"></div>
+                    <div class="notready">Content not ready</div>
+                    <div class='instructions'>Shows the affect of the selected options on the previous tab.</div>
                     <div id="filteredControls"></div>
                     <div id="filterDetailContainer" class="svg-container"></div>
                 </div>

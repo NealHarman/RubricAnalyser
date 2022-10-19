@@ -186,7 +186,7 @@ function normalDataControls(container, controlName, css, cssNormal) {
             "}" +
             "});</script>" +
             "<div>" +
-            "<input type ='checkbox' id='" + controlName + "ShowNormal' checked/><span>&nbsp;Show model histogram data.</span><br/>" +
+            "<input type ='checkbox' id='" + controlName + "ShowNormal' checked/><span>&nbsp;Show target curve.</span><br/>" +
             "<input type ='checkbox' id='" + controlName + "ShowData' checked/><span>&nbsp;Show actual data.</span><br/>" +
             "</div>";
 }
