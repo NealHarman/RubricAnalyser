@@ -1,0 +1,35 @@
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+.graphText{fill: black; stroke: black; opacity: 1.0;}
+.bar {fill: lightsteelblue; opacity: 0.6;}
+.barNormal {fill: steelblue; opacity: 0.9}
+.lowHighBar {fill: mediumorchid; opacity: 0.5;}
+.lowHighRefBar {fill: plum; opacity: 0.8;}
+.rubricBar {fill: powderblue; opacity: 0.4;}
+.rubricBarWeighted {fill: lightsteelblue; opacity: 0.8;}
+.bubble {fill: palegoldenrod; opacity: 0.5; stroke: grey}
+.box {fill: lightgreen; stroke: grey}
+.boxScaled {fill: teal; stroke: grey}
+.boxSummary{fill: crimson; stroke: grey}
+.filterBar{fill: gray; opacity: 0.2;}
+.filterBarNormal{fill: darkgrey; opacity: 0.2;}
+.line{fill: none; stroke: black; stroke-width: 2.0;}
+
+.control{opacity: 0.9;}
+
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    vertical-align: top;
+    overflow: hidden;
+}
+.svg-content {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}

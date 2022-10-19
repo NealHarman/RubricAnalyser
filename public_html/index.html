@@ -1,0 +1,204 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
+    
+    <head>
+        <meta charset="utf-8">
+        <meta content="IE=edge,chrome=1">
+        <title>Canvas Rubric Analyser</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Set of tab headers that link to tab pages below -->
+        <div id = "tabs" class="container-fluid">
+            <ul class="nav nav-tabs" role="tablist">
+
+                <!-- 1. Loading page and input fields as well as overall box plot of data and 'ideal' target data -->
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" data-bs-target="#load" id="load-tab" data-bs-toggle="tab" type="button" role="tab" aria-controls="load" aria-selected="true">Load</button>
+                </li>
+
+                <!-- 2. Histogram of actual data and target data -->
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-bs-target="#histogram" id="histogram-tab" data-bs-toggle="tab" type="button" role="tab" aria-controls="histogram" aria-selected="false">Histogram</button>
+                </li>
+
+                <!-- 3. Low-to-High plot of actual data and target data -->
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-bs-target="#grades" id="grades-tab" data-bs-toggle="tab" role="tab" aria-controls="grades" aria-selected="false">Grades</button>
+                </li>
+
+                <!-- 4. Low-to-High plot of actual data with rubric category scores highlighted, and line plot of target data-->
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-bs-target="#gradesRubric" id="grades-tab" data-bs-toggle="tab" role="tab" aria-controls="gradesRubric" aria-selected="false">Grades by Rubric Category</button>
+                </li>
+
+                <!-- 5. Averages of each category out of actual score and as a %, along with bubble plot of number of students in each rubric category-->
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-bs-target="#rubricSummary" id="rubricSummary-tab" data-bs-toggle="tab" role="tab" aria-controls="rubricSummary" aria-selected="false">Rubric Averages and Counts</button>
+                </li>
+
+                <!-- 6. Rubric box plot based on actual category score-->
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-bs-target="#rubricBoxplot" id="rubricBoxplot-tab" data-bs-toggle="tab" role="tab" aria-controls="rubricBoxplot" aria-selected="false">Rubric Box Plot</button>
+                </li>
+
+                <!-- 7. Rubric box plot based on % category score-->
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-bs-target="#rubricBoxplotScaled" id="rubricBoxplotScaled-tab" data-bs-toggle="tab" role="tab" aria-controls="rubricBoxplotScaled" aria-selected="false">Scaled Rubric Box Plot</button>
+                </li>
+
+                <!-- 8. 'What if' low-high plot - the top options to map the actual to the target data by moving students up/down one or more rubric catagories-->
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-bs-target="#filterHistogram" id="filterHistogram-tab" data-bs-toggle="tab" role="tab" aria-controls="filterHistogram" aria-selected="false">Category Up/Down Histogram</button>
+                </li>
+
+                <!-- 9. Impact of the 'what if' scenarios on the scores of all students-->
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-bs-target="#filterDetail" id="filterHistogram-tab" data-bs-toggle="tab" role="tab" aria-controls="filterDetail" aria-selected="false">Up/Down Drill Down</button>
+                </li>
+            </ul>
+
+            <!-- The Actual tabs -->
+            <div class="tab-content clearfix">
+                
+                <!-- 1. Input fields for data - currently pre-populated - as well as buttons to load/process data, and download CSV/TSV files. Also overall summary actual/target data boxplot -->        
+                <div class="tab-pane active" id="load" role="tabpanel">
+                    <div class="row">
+
+                        <div class="col-md-3">
+                            <form>
+                                <div class="mb-3">
+                                    <label>Token</label><br/>
+                                    <input id="token" type="password" size="50" maxlength="100">
+                                </div>
+                                <div class="mb-3">
+                                    <label>Course ID</label><br/>
+                                    <input id="course" type="number">
+                                </div>
+                                <div class="mb-3">
+                                    <label>Assessment ID</label><br/>
+                                    <input id="assessment" type="number">
+                                </div>
+                                <button id="go" class="btn btn-primary" type="button">
+                                    Go!&raquo;
+                                </button>
+                                <div class="mb-3" id="loading"></div>
+                            </form>
+                        </div>
+
+                        <div class="col-md-3">
+                            <form>
+                                <div class="mb-3">
+                                    <label>Base URL</label><br/>
+                                    <input id="url" type="url">
+                                </div>
+                                <div class="mb-3">
+                                    <label>Target Average</label><br/>
+                                    <input id="average" type="number">
+                                </div>
+                                <div class="mb-3">
+                                    <label>Target SD</label><br/>
+                                    <input id="sd" type="number">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- These controls not visible until data loaded/processed -->
+                    <form id="download" style="display:none">
+                        <span><button class="btn btn-primary" id="csv" type="button">Download CSV &raquo;</button>&nbsp;</span>
+                        <span><button class="btn btn-primary" id="tsv" type="button">Download TSV &raquo;</button></span>
+                    </form>
+                    <!--The SVG container -->
+                    <div class="tab-pane" id="summary">
+                        <div id="summaryContainer" class="svg-container"></div>
+                    </div>
+                </div>
+                
+                <!-- 2. Check boxes to turn visibility on/off of actual and target histogram data as well as SVG for data-->
+                <div class="tab-pane" id="histogram" role="tabpanel">
+                    <div class="notready"></div>
+                    <div id="histControls" class='controlContainer'></div>
+                    <div id="histContainer" class="svg-container"></div>
+                </div>
+                
+                <!-- 3. Check boxes to turn actual and target low-to-high mark data on/off as well as SVG for data --> 
+                <div class="tab-pane" id="grades" role="tabpanel">
+                    <div class="notready"></div>
+                    <div id="lowHighControls" class='controlContainer'></div>
+                    <div id="scoreContainer" class="svg-container"></div>
+                </div>
+                
+                <!-- 4. SVG for low-to-high mark data highlighted by rubric category, and line graph of target data -->
+                <div class="tab-pane" id="gradesRubric" role="tabpanel">
+                    <div class="notready"></div>
+                    <div id="scoreRubricContainer" class="svg-container"></div>
+                </div>
+                
+                <!-- 5. SVG for rubric averages 'raw' and by %, bubble chart of rubric category counts, and controls to turn each one on/off -->
+                <div class="tab-pane" id="rubricSummary" role="tabpanel">
+                    <div class="notready"></div>
+                    <div id="rubricControls" class='controlContainer'></div>
+                    <div id="rubricSummaryContainer" class="svg-container"></div>
+                </div>
+                
+                <!-- 6. SVG for 'raw' rubric mark data - average, quartiles, median, lowest and highest -->
+                <div class="tab-pane" id="rubricBoxplot" role="tabpanel">
+                    <div class="notready"></div>
+                    <div id="rubricBoxplotContainer" class="svg-container"></div>
+                </div>
+                
+                <!-- 7. SVG for % rubric mark data - average, quartiles, median, lowest and highest -->
+                <div class="tab-pane" id="rubricBoxplotScaled" role="tabpanel">
+                    <div class="notready"></div>
+                    <div id="scaledRubricBoxplotContainer" class="svg-container"></div>
+                </div>
+                
+                <!-- 8. What-if controls for top options by number of student marks 'normalised' - dynamimcally generated, as well as on/off control for all options, and SVG for mark data -->
+                <div class="tab-pane" id="filterHistogram" role="tabpanel">
+                    <div class="notready"></div>
+                    <form>
+                        <span><input type ='checkbox' class='masterControl' id='changeall' checked/><span>Change All</span>
+                    </form>
+                    <div id="whatIfControls" class='controlContainer'></div>
+                    <div id="filterHistogramContainer" class="svg-container"></div>
+                </div>
+                
+                <!-- 9. Integrated with 8 - the effect of each 'what if' option on all student marks - only really makes sense to look at one at at time -->
+                <div class="tab-pane" id="filterDetail" role="tabpanel">
+                    <div class="notready"></div>
+                    <div id="filteredControls"></div>
+                    <div id="filterDetailContainer" class="svg-container"></div>
+                </div>
+            </div>
+
+            <hr>
+
+            <footer>
+                <p>&copy; N A Harman 2021</p>
+            </footer>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"   integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="   crossorigin="anonymous"></script>
+            <script src="js/vendor/bootstrap.bundle.min.js"></script>
+            <script src="js/main.js"></script>
+            <script src="js/getdata.js"></script>
+            <script src="js/processdata.js"></script>
+            <script src="js/chart.js"></script>
+            <script src="js/summarydata.js"></script>
+            <script src ="js/markdata.js"></script>
+            <script src ="js/rubricdata.js"></script>
+            <script src ="js/categoryshift.js"></script>
+            <script src="https://d3js.org/d3.v6.js"></script>
+        </div>
+    </body>
+</html>
