@@ -1,9 +1,9 @@
 # RubricAnalyser
 Downloads and 'visualises' the contents of completed rubrics for assessments in the Canvas LMS
 
-Written to help me work out what I needed to do to my Canvas rubrics to get the marks to conform to a more reasonalbe distribution. The issue is that I
+Written to help me work out what I needed to do to my Canvas rubrics to get the marks to conform to a more reasonable distribution. The issue is that I
 like to write very quantative rubrics, with very clear descriptions of what is required for each criteria to reach a specific level. This meant (I
-believed) that the marks were sometimes unrealstically high because it was very clear what was required (and there was limited scope for 'challenge').
+believed) that the marks were sometimes unrealstically high because it was very clear what was required.
 
 The strategy was to simply download the assessment, grade and rubric data using the Canvas API (using Javascript and jQuery) and then turn it into
 different kinds of charts (using D3) to get some insight into what was going on. I kept doing this until I got to one that was helpful and
